@@ -1,3 +1,9 @@
+def Cmd() {
+    sh 'npm install'
+}
+def deploy() {
+    sh './deploy_script.sh'
+}
 pipeline {
     agent any
     tools{
@@ -11,7 +17,16 @@ pipeline {
         }
         stage ("Build") {
             steps{
-                sh 'npm install'
+                script {
+                    Cmd()
+                }
+            }
+        }
+        stage ("Deploying on deployment server") {
+            steps{
+                script {
+                    deploy()
+                }
             }
         }
     }
