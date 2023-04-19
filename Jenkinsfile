@@ -20,9 +20,11 @@ pipeline {
             }
         }
         stage ("Deploying on deployment server") {
-            sshagent(['deployServer']) {
-               sh 'ssh ubuntu@172.31.38.201'
-               sh 'scp -r /var/lib/jenkins/workspace/nodeApp/* ubuntu@172.31.38.201:/home/ubuntu/nodejs2-Jenkins'
+            steps{
+                sshagent(['deployServer']) {
+                   sh 'ssh ubuntu@172.31.38.201'
+                   sh 'scp -r /var/lib/jenkins/workspace/nodeApp/* ubuntu@172.31.38.201:/home/ubuntu/nodejs2-Jenkins'
+                }
             }
         }
     }
