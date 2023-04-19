@@ -7,4 +7,4 @@ pm2 save --force
 while pm2 list|grep $PROCESS_NAME|awk '{print $18}'|grep 'online'; do
     sleep 1
 done
-pm2 start $ECOSYSTEM_FILE --name $PROCESS_NAME --wait-ready --listen-timeout 5000
+pm2 start $ECOSYSTEM_FILE --name $PROCESS_NAME
