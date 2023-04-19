@@ -2,7 +2,7 @@ def Cmd() {
     sh 'npm install'
 }
 def deploy() {
-    sh './deploy_script.sh'
+    sh 'ssh ubuntu@172.31.38.201 /var/lib/jenkins/workspace/nodeApp/deploy_script.sh'
 }
 pipeline {
     agent any
