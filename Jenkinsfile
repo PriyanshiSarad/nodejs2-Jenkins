@@ -25,7 +25,7 @@ pipeline {
                    sh """ 
                      ssh -o StrictHostKeyChecking=no ubuntu@172.31.38.201
                      scp -r /var/lib/jenkins/workspace/nodeApp/* ubuntu@172.31.38.201:/home/ubuntu/nodejs2-Jenkins
-                     ssh ubuntu@172.31.38.201 'cd /var/lib/jenkins/workspace/nodeApp && sh deploy_script.sh'
+                     ssh ubuntu@172.31.38.201 'cd /home/ubuntu/nodejs2-Jenkins && sh deploy_script.sh'
                    """
                 }
             }
