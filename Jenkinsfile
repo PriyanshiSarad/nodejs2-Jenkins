@@ -24,6 +24,7 @@ pipeline {
                 sshagent(['deployServer']) {
                    sh 'ssh -o StrictHostKeyChecking=no ubuntu@172.31.38.201'
                    sh 'scp -r /var/lib/jenkins/workspace/nodeApp/* ubuntu@172.31.38.201:/home/ubuntu/nodejs2-Jenkins'
+                   sh './deploy_script.sh'
                 }
             }
         }
