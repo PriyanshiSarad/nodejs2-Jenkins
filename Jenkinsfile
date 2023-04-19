@@ -1,9 +1,6 @@
 def Cmd() {
     sh 'npm install'
 }
-def deploy() {
-    sh './deploy_script.sh'
-}
 pipeline {
     agent any
     tools{
@@ -23,10 +20,9 @@ pipeline {
             }
         }
         stage ("Deploying on deployment server") {
-            steps{
-                script {
-                    deploy()
-                }
+            sshagent(['deployServer']) {
+               sh 'ssh ubuntu@172.31.38.201'
+               sh 'scp -r /var/lib/jenkins/workspace/nodeApp/* ubuntu@172.31.38.201:/home/ubuntu/nodejs2-Jenkins'
             }
         }
     }
