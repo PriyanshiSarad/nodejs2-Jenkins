@@ -1,9 +1,6 @@
 def Cmd() {
     sh 'npm install'
 }
-def deploy() {
-    sh './deploy_script.sh'
-}
 pipeline {
     agent any
     tools{
@@ -25,9 +22,11 @@ pipeline {
         stage ("Deploying on deployment server") {
             steps{
                 sshagent(['deployServer']) {
-                   sh 'ssh -o StrictHostKeyChecking=no ubuntu@172.31.38.201'
-                   sh 'scp -r /var/lib/jenkins/workspace/nodeApp/* ubuntu@172.31.38.201:/home/ubuntu/nodejs2-Jenkins'
-                   deploy()
+                   sh """ 
+                     ssh -o StrictHostKeyChecking=no ubuntu@172.31.38.201
+                     scp -r /var/lib/jenkins/workspace/nodeApp/* ubuntu@172.31.38.201:/home/ubuntu/nodejs2-Jenkins
+                     ssh ubuntu@172.31.38.201 'cd . && sh deploy_script.sh'
+                   """
                 }
             }
         }
