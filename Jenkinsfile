@@ -1,5 +1,7 @@
-def Cmd() {
+def archieve() {
+    sh 'rm -rf *.tar.gz'
     sh 'npm install'
+    sh 'tar -czf node-$BUILD_NUMBER.tar.gz /var/lib/jenkins/workspace/nodeApp/*'
 }
 pipeline {
     agent any
@@ -15,18 +17,7 @@ pipeline {
         stage ("Build") {
             steps{
                 script {
-                    Cmd()
-                }
-            }
-        }
-        stage ("Deploying on deployment server") {
-            steps{
-                sshagent(['deployServer']) {
-                   sh """ 
-                     ssh -o StrictHostKeyChecking=no ubuntu@172.31.38.201
-                     scp -r /var/lib/jenkins/workspace/nodeApp/* ubuntu@172.31.38.201:/home/ubuntu/nodejs2-Jenkins
-                     ssh ubuntu@172.31.38.201 'cd /home/ubuntu/nodejs2-Jenkins && sh deploy_script.sh'
-                   """
+                    archieve()
                 }
             }
         }
