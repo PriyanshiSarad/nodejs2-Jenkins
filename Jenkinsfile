@@ -23,7 +23,7 @@ pipeline {
         }
         stage("Deployment") {
             steps{
-                sshPublisher(publishers: [sshPublisherDesc(configName: 'deploy1', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: './deploy_script.sh', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '**/*.tar.gz')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+                sshPublisher(publishers: [sshPublisherDesc(configName: 'deploy1', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'ssh ubuntu@172.31.38.201 "bash /var/lib/jenkins/workspace/nodeApp/deploy_script.sh"', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '**/*.tar.gz')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
             }
         }
     }
