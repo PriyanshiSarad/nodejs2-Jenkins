@@ -1,7 +1,7 @@
 def archieve() {
     sh 'rm -rf *.tar.gz'
     sh 'npm install'
-    sh 'tar -czf node.tar.gz /var/lib/jenkins/workspace/nodeApp/*'
+    sh 'tar -czf node.tar.gz *'
 }
 pipeline {
     agent any
