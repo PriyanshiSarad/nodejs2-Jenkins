@@ -28,7 +28,7 @@ pipeline {
             steps{
                 sshagent(['deployServer']) {
                     sh """
-                      tar -czf build.tar.gz - ./*| ssh -o StrictHostKeyChecking=no ${env.REMOTE_USER}@${env.REMOTE_IP} "tar -C ${env.REMOTE_DIRECTORY} -xzf"
+                      tar -czf build.tar.gz - ./*| ssh -o StrictHostKeyChecking=no ${env.REMOTE_USER}@${env.REMOTE_IP} "tar -C ${env.REMOTE_DIRECTORY} -xzf -"
                     """
                 }
             }
