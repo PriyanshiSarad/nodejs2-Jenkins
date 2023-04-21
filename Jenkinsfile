@@ -1,12 +1,15 @@
 def archieve() {
-    sh 'rm -rf *.tar.gz'
     sh 'npm install'
-    sh 'tar -czf node.tar.gz *'
 }
 pipeline {
     agent any
     tools{
         nodejs 'nodejs18'
+    }
+    environment{
+        REMOTE_USER='ubuntu'
+        REMOTE_IP='172.31.38.201'
+        REMOTE_DIR='/home/ubuntu/nodejs2-Jenkins'
     }
     stages{
         stage ("Fetch Code from GitHub") {
@@ -23,7 +26,11 @@ pipeline {
         }
         stage("Deployment") {
             steps{
-                sshPublisher(publishers: [sshPublisherDesc(configName: 'deploy1', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: './deploy_script.sh', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '**/*.tar.gz')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+                sshagent(['deployServer']) {
+                    sh """
+                      tar -czf - .| ssh -o StrictHostKeyChecking=no ${env.REMOTE_USER}@${env.REMOTE_IP} "tar -C ${env.REMOTE_DIRECTORY} -xzf"
+                    """
+                }
             }
         }
     }
