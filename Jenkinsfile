@@ -26,10 +26,12 @@ pipeline {
         }
         stage("Deployment") {
             steps{
-                sh """
-                  tar -czf - app.js ecosystem.config.js node_modules package-lock.json package.json deploy_script.sh | ssh -o StrictHostKeyChecking=no ${env.REMOTE_USER}@${env.REMOTE_IP} "tar -C ${env.REMOTE_DIR} -xzf -"
-                  ssh -o StrictHostKeyChecking=no ${env.REMOTE_USER}@${env.REMOTE_IP} "cd ${env.REMOTE_DIR} && ./deploy_script.sh"
-                """
+                script{
+                  sh """
+                    tar -czf - app.js ecosystem.config.js node_modules package-lock.json package.json deploy_script.sh | ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_IP} "tar -C ${REMOTE_DIR} -xzf -"
+                    ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_IP} "cd ${REMOTE_DIR} && ./deploy_script.sh"
+                  """
+                }
             }
         }
     }
