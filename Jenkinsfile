@@ -28,7 +28,8 @@ pipeline {
             steps{
                 sshagent(['deployServer']) {
                     sh """
-                      tar -czf - app.js ecosystem.config.js node_modules package-lock.json package.json | ssh -o StrictHostKeyChecking=no ${env.REMOTE_USER}@${env.REMOTE_IP} "tar -C ${env.REMOTE_DIR} -xzf -"
+                      tar -czf - app.js ecosystem.config.js node_modules package-lock.json package.json deploy_script.sh | ssh -o StrictHostKeyChecking=no ${env.REMOTE_USER}@${env.REMOTE_IP} "tar -C ${env.REMOTE_DIR} -xzf -"
+                      ssh -o StrictHostKeyChecking=no ${env.REMOTE_USER}@${env.REMOTE_IP} "cd ${env.REMOTE_DIR} && ./deploy_script.sh"
                     """
                 }
             }
